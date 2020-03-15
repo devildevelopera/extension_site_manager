@@ -1,0 +1,30 @@
+body {
+    background-color: #f0f0f0 !important;
+}
+.container {
+    margin-top: 20px;
+}
+.form-group {
+    min-height: 70px;
+    margin-bottom: 0.5rem !important;
+}
+.form-check-inline {
+    padding-top: 40px;
+}
+.btngroup {
+    padding-top: 31px;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.close:focus {
+    outline: none !important;
+}
+
+@media (min-width: 1200px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1440px !important;
+    }
+}
