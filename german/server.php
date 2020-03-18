@@ -6,7 +6,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "chromedb";
+$dbname = "laravel_excel";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,12 +16,12 @@ if ($conn->connect_error) {
 }
 $conn -> set_charset("utf8mb4");
 
-$sql = "SELECT * FROM company ORDER BY 'firmenname'";
+$sql = "SELECT * FROM records ORDER BY 'firmenname'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = mysqli_fetch_array($result)){
-        $comid = $row['comid'];
+        $id = $row['id'];
         $firmenname = $row['firmenname'];
         $strasse = $row['strasse'];
         $plz = $row['plz'];
@@ -30,10 +30,10 @@ if ($result->num_rows > 0) {
         $vorname = $row['vorname'];
         $nachname = $row['nachname'];
         $web = $row['web'];
-        $gender = $row['gender'];
-        $optradio = $row['optradio'];
+        $anrede = $row['anrede'];
+        $freifeld_1 = $row['freifeld_1'];
     
-        $return_arr[] = array("comid" => $comid,
+        $return_arr[] = array("id" => $id,
                         "firmenname" => $firmenname,
                         "strasse" => $strasse,
                         "plz" => $plz,
@@ -42,8 +42,8 @@ if ($result->num_rows > 0) {
                         'vorname' => $vorname,
                         'nachname' => $nachname,
                         'web' => $web,
-                        'gender' => $gender,
-                        'optradio' => $optradio);
+                        'anrede' => $anrede,
+                        'freifeld_1' => $freifeld_1);
     }
     echo json_encode($return_arr);
 } else {

@@ -6,7 +6,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "chromedb";
+$dbname = "laravel_excel";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,30 +16,30 @@ if ($conn->connect_error) {
 }
 $conn -> set_charset("utf8mb4");
 
-$comid = $_POST['comid'];
+$id = $_POST['id'];
 $firmenname = $_POST['firmenname'];
 $strasse = $_POST['strasse'];
 $plz = $_POST['plz'];
 $ort = $_POST['ort'];
 $vorname = $_POST['vorname'];
 $nachname = $_POST['nachname'];
-$gender = $_POST['gender'];
+$anrede = $_POST['anrede'];
 $titel = $_POST['titel'];
-$optradio = $_POST['optradio'];
+$freifeld_1 = $_POST['freifeld_1'];
 $web = $_POST['web'];
 
-$updatesql = "UPDATE `company` SET
+$updatesql = "UPDATE `records` SET
 `firmenname` = '$firmenname',
 `strasse` = '$strasse', 
 `plz` = '$plz', 
 `ort` = '$ort', 
 `vorname` = '$vorname',
 `nachname` = '$nachname', 
-`gender` = '$gender',
+`anrede` = '$anrede',
 `titel` = '$titel', 
-`optradio` = '$optradio',
+`freifeld_1` = '$freifeld_1',
 `web` = '$web'
-WHERE comid=$comid";
+WHERE id=$id";
 
 $updateresult = $conn->query($updatesql);
 

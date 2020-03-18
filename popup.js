@@ -7,10 +7,13 @@ function getData() {
         dataType : "JSON",
         success: function (data) {
             for(var i=0; i<data.length; i++) {
-                if(data[i].optradio){
+                if(data[i].freifeld_1){
                     data.splice(i, 1);
+                    i--;
                 }
             }
+            // console.log(data);
+            localStorage.removeItem('data');
             localStorage.setItem('data', JSON.stringify(data));
             if(!localStorage.getItem('index')){
                 localStorage.setItem('index', 0);
@@ -24,7 +27,7 @@ function display(data) {
         return;
     }
     index = parseInt(localStorage.getItem('index'));
-    $('#comid').val(data[index].comid);
+    $('#id').val(data[index].id);
     $('#firmenname').val(data[index].firmenname);
     $('#strasse').val(data[index].strasse);
     $('#plz').val(data[index].plz);
@@ -32,45 +35,45 @@ function display(data) {
     $('#vorname').val(data[index].vorname);
     $('#nachname').val(data[index].nachname);
     $('#url').val(data[index].web);
-    if(data[index].gender === 'Herr'){
+    if(data[index].anrede === 'Herr'){
         $('#herr').prop('checked', true);
-    } else if(data[index].gender === 'Frau'){
+    } else if(data[index].anrede === 'Frau'){
         $('#frau').prop('checked', true);
-    } else if(data[index].gender === ''){
+    } else if(data[index].anrede === ''){
         $('#gnv').prop('checked', true);
     }
-    if(data[index].titel === 'Dr'){
+    if(data[index].titel === 'Dr.'){
         $('#dr').prop('checked', true);
-    } else if(data[index].titel === 'Prof'){
-        $('#pref').prop('checked', true);
+    } else if(data[index].titel === 'Prof.'){
+        $('#prof').prop('checked', true);
     } else if(data[index].titel === ''){
         $('#tnv').prop('checked', true);
     }
 
-    switch(data[index].optradio) {
+    switch(data[index].freifeld_1) {
         case '1':
-            $('#optradio-1').prop('checked', true);
+            $('#freifeld_1-1').prop('checked', true);
           break;
         case '2':
-            $('#optradio-2').prop('checked', true);
+            $('#freifeld_1-2').prop('checked', true);
           break;
         case '3':
-            $('#optradio-3').prop('checked', true);
+            $('#freifeld_1-3').prop('checked', true);
           break;
         case '4':
-            $('#optradio-4').prop('checked', true);
+            $('#freifeld_1-4').prop('checked', true);
           break;
         case 'Shop':
-            $('#optradio-Shop').prop('checked', true);
+            $('#freifeld_1-Shop').prop('checked', true);
           break;
         case 'Werbung':
-            $('#optradio-Werbung').prop('checked', true);
+            $('#freifeld_1-Werbung').prop('checked', true);
           break;
         case 'Foto':
-            $('#optradio-Foto').prop('checked', true);
+            $('#freifeld_1-Foto').prop('checked', true);
           break;
         case 'Nein':
-            $('#optradio-Nein').prop('checked', true);
+            $('#freifeld_1-Nein').prop('checked', true);
           break;
         default:
           // code block
@@ -118,41 +121,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var nextButton = document.getElementById('next');
     nextButton.addEventListener('click', function() {
-        var data = JSON.parse(localStorage.getItem('data'));
-        var comid = $('#comid').val();
+        var id = $('#id').val();
         var firmenname = $('#firmenname').val();
         var strasse = $('#strasse').val();
         var plz = $('#plz').val();
         var ort = $('#ort').val();
         var vorname = $('#vorname').val();
         var nachname = $('#nachname').val();
-        var gender = $("input[name='gender']:checked").val();
+        var anrede = $("input[name='anrede']:checked").val();
         var titel = $("input[name='titel']:checked").val();
-        var optradio = $("input[name='optradio']:checked").val();
+        var freifeld_1 = $("input[name='freifeld_1']:checked").val();
         var newurl = $('#url').val();
-        if(optradio === undefined){
-            optradio = "";
+        if(freifeld_1 === undefined){
+            freifeld_1 = "";
+        }
+        if(newurl === "www.google.com") {
+            newurl = "";
+        }
+        if(newurl === "") {
+            freifeld_1 = "";
         }
         var updateData = {
-            'comid': comid,
+            'id': id,
             'firmenname': firmenname,
             'strasse': strasse,
             'plz': plz,
             'ort': ort,
             'vorname': vorname,
             'nachname': nachname,
-            'gender': gender,
+            'anrede': anrede,
             'titel': titel,
-            'optradio': optradio,
+            'freifeld_1': freifeld_1,
             'web': newurl
         };
-        console.log(updateData)
         $.ajax({
             type: 'POST',
             url: 'http:/localhost/german/update.php',
             data: updateData,
             success: function (result) {
                 if(result === 'success') {
+                    var data = JSON.parse(localStorage.getItem('data'));
                     index = parseInt(localStorage.getItem('index')) + 1;
                     localStorage.setItem('index', index);
                     if(index >= data.length){
