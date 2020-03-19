@@ -1,12 +1,12 @@
 <?php
-// $servername = "localhost";
-// $username = "josef";
-// $password = "Mp8s2_t7";
-// $dbname = "chromedb";
+// $servername = "db000445.mydbserver.com";
+// $username = "p547650";
+// $password = "!j41,Xiireyhbh";
+// $dbname = "usr_p547650_1";
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "laravel_excel";
+$dbname = "usr_p547650_1";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

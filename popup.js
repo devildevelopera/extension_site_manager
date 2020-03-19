@@ -4,6 +4,7 @@ function getData() {
     $.ajax({
         type: 'GET',
         url: 'http://localhost/german/server.php',
+        // url: 'https://bestensverpackt.de/german/server.php',
         dataType : "JSON",
         success: function (data) {
             for(var i=0; i<data.length; i++) {
@@ -156,7 +157,8 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         $.ajax({
             type: 'POST',
-            url: 'http:/localhost/german/update.php',
+            url: 'http://localhost/german/update.php',
+            // url: 'https://bestensverpackt.de/german/update.php',
             data: updateData,
             success: function (result) {
                 if(result === 'success') {

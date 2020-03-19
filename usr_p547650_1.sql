@@ -1,6 +1,6 @@
 /*
 SQLyog Community v12.3.2 (64 bit)
-MySQL - 10.3.15-MariaDB : Database - laravel_excel
+MySQL - 10.3.15-MariaDB : Database - usr_p547650_1
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 10.3.15-MariaDB : Database - laravel_excel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`laravel_excel` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`usr_p547650_1` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
-USE `laravel_excel`;
+USE `usr_p547650_1`;
 
 /*Table structure for table `migrations` */
 
@@ -131,7 +131,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`created_at`,`updated_at`) values 
-(118,'miguel','miguelhoffmannsmart@gmail.com',NULL,'$2y$10$EVUbjH85.5fMzzo.G79Kregaiqv0WPYfdiRHrgk7KeCkRtBX0TylC',NULL,'2020-03-18 04:36:08','2020-03-18 04:36:08');
+(118,'miguel','miguelhoffmannsmart@gmail.com',NULL,'$2y$10$fz3R8HPEDZ3vEf3VUYX0dO5t/VsbTsyIyUs6orv9UXxKPM9Y5pJpG',NULL,'2020-03-18 04:36:08','2020-03-18 12:59:21');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
