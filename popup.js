@@ -3,8 +3,8 @@ var index = 0;
 function getData() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/german/server.php',
-        // url: 'https://bestensverpackt.de/german/server.php',
+        // url: 'http://localhost/german/server.php',
+        url: 'https://bestensverpackt.de/german/server.php',
         dataType : "JSON",
         success: function (data) {
             for(var i=0; i<data.length; i++) {
@@ -24,10 +24,10 @@ function getData() {
 }
 
 function display(data) {
-    if(!data){
+    index = parseInt(localStorage.getItem('index'));
+    if(!data[index]){
         return;
     }
-    index = parseInt(localStorage.getItem('index'));
     $('#id').val(data[index].id);
     $('#firmenname').val(data[index].firmenname);
     $('#strasse').val(data[index].strasse);
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var gotoUrlButton = document.getElementById('gotoUrl');
     gotoUrlButton.addEventListener('click', function() {
         if($('#url').val()){
-            window.open(url);
+            window.open('https://'+url);
         }
     });
 
@@ -157,8 +157,8 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         $.ajax({
             type: 'POST',
-            url: 'http://localhost/german/update.php',
-            // url: 'https://bestensverpackt.de/german/update.php',
+            // url: 'http://localhost/german/update.php',
+            url: 'https://bestensverpackt.de/german/update.php',
             data: updateData,
             success: function (result) {
                 if(result === 'success') {

@@ -1,3 +1,4 @@
+console.log("document body----?");
 chrome.runtime.onMessage.addListener(function(msg, sender){
     if(msg == "open"){
         open();
@@ -30,5 +31,8 @@ function close(){
 
 window.addEventListener('load', (event) => {
     open();
+    chrome.runtime.sendMessage({type: "inactive"});
     chrome.runtime.sendMessage({type: "display", url: window.location.hostname});
 });
+
+chrome.runtime.sendMessage({type: "active"});
