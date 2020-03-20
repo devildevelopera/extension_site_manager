@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('index', index);
         }
         if(data[index].web){
-            chrome.runtime.sendMessage({type: 'updateUrl', web: data[index].web});
+            chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+data[index].web});
         } else {
             var searchUrl = `https://www.google.com/search?q=${data[index].firmenname}+${data[index].strasse}+${data[index].plz}+${data[index].ort}`;
             chrome.runtime.sendMessage({type: 'updateUrl', web: searchUrl});
