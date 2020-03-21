@@ -25,7 +25,9 @@ function getData() {
 
 function display(data) {
     index = parseInt(localStorage.getItem('index'));
-    if(!data[index]){
+    if(!data){
+        return;
+    } else if(!data[index]){
         return;
     }
     $('#id').val(data[index].id);
@@ -79,6 +81,9 @@ function display(data) {
         default:
           // code block
       }
+      if($('#url').val() && url != $('#url').val() && url != "www.google.com") {
+        chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+$('#url').val()});
+      }
 }
 
 $(document).ready(() => {
@@ -94,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var gotoUrlButton = document.getElementById('gotoUrl');
     gotoUrlButton.addEventListener('click', function() {
         if($('#url').val()){
-            window.open('https://'+url);
+            chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+$('#url').val()});
         }
     });
 
@@ -186,9 +191,9 @@ function receiveMessage(message, sender, callback) {
         url = message.url;
         var data = JSON.parse(localStorage.getItem('data'));
         display(data);
-        if(url === "https://www.google.com/") {
-            chrome.runtime.sendMessage({type: 'updateUrl', web: data[index].web});
-        }
+        // if(url === "www.google.com") {
+        //     chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+data[index].web});
+        // }
     }
 }
 
