@@ -81,7 +81,7 @@ function display(data) {
         default:
           // code block
       }
-      if($('#url').val() && url != $('#url').val() && url != "www.google.com") {
+      if($('#url').val() && url != $('#url').val() && url != "www.google.com" && url != 'bestensverpackt.de') {
         chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+$('#url').val()});
       }
 }

@@ -30,7 +30,9 @@ function close(){
 }
 
 window.addEventListener('load', (event) => {
-    open();
+    if(window.location.hostname != "bestensverpackt.de") {
+        open();
+    }
     chrome.runtime.sendMessage({type: "inactive"});
     chrome.runtime.sendMessage({type: "display", url: window.location.hostname});
 });
