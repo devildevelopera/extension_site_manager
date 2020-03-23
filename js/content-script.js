@@ -1,4 +1,3 @@
-console.log("document body----?");
 chrome.runtime.onMessage.addListener(function(msg, sender){
     if(msg == "open"){
         open();
@@ -6,6 +5,9 @@ chrome.runtime.onMessage.addListener(function(msg, sender){
     if(msg == "close"){
         close();
     }
+    if(msg === "get_url"){
+        chrome.runtime.sendMessage({type: "set_url", url: window.location.hostname});
+	}
 })
 
 var iframe = document.createElement('iframe'); 
@@ -19,7 +21,9 @@ iframe.style.zIndex = "9000000000000000000";
 iframe.frameBorder = "none";
 iframe.src = chrome.extension.getURL("popup.html");
 
-document.body.appendChild(iframe);
+if(window.location.hostname != 'bestensverpackt.de') {
+    document.body.appendChild(iframe);
+}
 
 function open(){
     iframe.style.height="300px";
@@ -29,12 +33,9 @@ function close(){
     iframe.style.height="0px";
 }
 
-window.addEventListener('load', (event) => {
-    if(window.location.hostname != "bestensverpackt.de") {
-        open();
-    }
-    chrome.runtime.sendMessage({type: "inactive"});
-    chrome.runtime.sendMessage({type: "display", url: window.location.hostname});
-});
-
 chrome.runtime.sendMessage({type: "active"});
+
+window.addEventListener('load', (event) => {
+    open();
+    chrome.runtime.sendMessage({type: "inactive", url: window.location.hostname});
+});

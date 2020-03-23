@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 $conn -> set_charset("utf8mb4");
 
-$sql = "SELECT * FROM records ORDER BY 'firmenname'";
+$sql = "SELECT * FROM records WHERE freifeld_1 IS NULL LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
     }
     echo json_encode($return_arr);
 } else {
-    echo "0 results";
+    echo json_encode([]);
 }
 $conn->close();
 ?>

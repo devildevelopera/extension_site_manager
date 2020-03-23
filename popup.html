@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
     crossorigin="anonymous"></head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="bootstrap.min.js"></script>
     <script src="popup.js"></script>
 </head>
 
@@ -155,17 +157,46 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group btngroup">
-                    <button type="button" class="btn btn-secondary" id="gotoUrl"><i class="fas fa-external-link-alt"></i></button>
+                    <!-- <button type="button" class="btn btn-secondary" id="gotoUrl"><i class="fas fa-external-link-alt"></i></button> -->
                     <button type="button" class="btn btn-secondary" id="get_url">URL Ubernehmen</button>
                 </div>
                 <div class="form-group btngroup"></div>
                 <div class="form-group btngroup">
-                    <button type="button" class="btn btn-secondary" id="back"><</button>
+                    <!-- <button type="button" class="btn btn-secondary" id="back"><</button> -->
                     <button type="button" class="btn btn-success" id="next">Speichen Weiter</button>
                 </div>
             </div>
           </div>
+
+          <!-- Button to Open the Modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="modal" style="display: none;">
+            Open modal
+          </button>
+          <!-- The Modal -->
+          <div class="modal" id="myModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-title"></h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="modal-body">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
+
+
     <script src="js/bootstrap.min.js"></script>
 </body>
 

@@ -1,59 +1,30 @@
 var url = '';
-var index = 0;
-function getData() {
-    $.ajax({
-        type: 'GET',
-        // url: 'http://localhost/german/server.php',
-        url: 'https://bestensverpackt.de/german/server.php',
-        dataType : "JSON",
-        success: function (data) {
-            for(var i=0; i<data.length; i++) {
-                if(data[i].freifeld_1){
-                    data.splice(i, 1);
-                    i--;
-                }
-            }
-            // console.log(data);
-            localStorage.removeItem('data');
-            localStorage.setItem('data', JSON.stringify(data));
-            if(!localStorage.getItem('index')){
-                localStorage.setItem('index', 0);
-            }
-        }
-    });
-}
 
-function display(data) {
-    index = parseInt(localStorage.getItem('index'));
-    if(!data){
-        return;
-    } else if(!data[index]){
-        return;
-    }
-    $('#id').val(data[index].id);
-    $('#firmenname').val(data[index].firmenname);
-    $('#strasse').val(data[index].strasse);
-    $('#plz').val(data[index].plz);
-    $('#ort').val(data[index].ort);
-    $('#vorname').val(data[index].vorname);
-    $('#nachname').val(data[index].nachname);
-    $('#url').val(data[index].web);
-    if(data[index].anrede === 'Herr'){
+function display(record) {
+    $('#id').val(record.id);
+    $('#firmenname').val(record.firmenname);
+    $('#strasse').val(record.strasse);
+    $('#plz').val(record.plz);
+    $('#ort').val(record.ort);
+    $('#vorname').val(record.vorname);
+    $('#nachname').val(record.nachname);
+    $('#url').val(record.web);
+    if(record.anrede === 'Herr'){
         $('#herr').prop('checked', true);
-    } else if(data[index].anrede === 'Frau'){
+    } else if(record.anrede === 'Frau'){
         $('#frau').prop('checked', true);
-    } else if(data[index].anrede === ''){
+    } else if(record.anrede === ''){
         $('#gnv').prop('checked', true);
     }
-    if(data[index].titel === 'Dr.'){
+    if(record.titel === 'Dr.'){
         $('#dr').prop('checked', true);
-    } else if(data[index].titel === 'Prof.'){
+    } else if(record.titel === 'Prof.'){
         $('#prof').prop('checked', true);
-    } else if(data[index].titel === ''){
+    } else if(record.titel === ''){
         $('#tnv').prop('checked', true);
     }
 
-    switch(data[index].freifeld_1) {
+    switch(record.freifeld_1) {
         case '1':
             $('#freifeld_1-1').prop('checked', true);
           break;
@@ -81,49 +52,28 @@ function display(data) {
         default:
           // code block
       }
-      if($('#url').val() && url != $('#url').val() && url != "www.google.com" && url != 'bestensverpackt.de') {
-        chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+$('#url').val()});
-      }
 }
-
-$(document).ready(() => {
-    getData();
-});
 
 document.addEventListener('DOMContentLoaded', function() {
     var getUrlButton = document.getElementById('get_url');
     getUrlButton.addEventListener('click', function() {
-            $('#url').val(url);
+        chrome.runtime.sendMessage({type: 'get_url'});
     });
 
-    var gotoUrlButton = document.getElementById('gotoUrl');
-    gotoUrlButton.addEventListener('click', function() {
-        if($('#url').val()){
-            chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+$('#url').val()});
-        }
-    });
+    // var gotoUrlButton = document.getElementById('gotoUrl');
+    // gotoUrlButton.addEventListener('click', function() {
+
+    // });
 
     var closeButton = document.getElementById('close');
     closeButton.addEventListener('click', function() {
         chrome.runtime.sendMessage({type: 'closePanel'});
     });
 
-    var backButton = document.getElementById('back');
-    backButton.addEventListener('click', function() {
-        var data = JSON.parse(localStorage.getItem('data'));
-        index = parseInt(localStorage.getItem('index')) - 1;
-        localStorage.setItem('index', index);
-        if(index < 0){
-            index = data.length-1;
-            localStorage.setItem('index', index);
-        }
-        if(data[index].web){
-            chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+data[index].web});
-        } else {
-            var searchUrl = `https://www.google.com/search?q=${data[index].firmenname}+${data[index].strasse}+${data[index].plz}+${data[index].ort}`;
-            chrome.runtime.sendMessage({type: 'updateUrl', web: searchUrl});
-        }
-    });
+    // var backButton = document.getElementById('back');
+    // backButton.addEventListener('click', function() {
+        
+    // });
 
     var nextButton = document.getElementById('next');
     nextButton.addEventListener('click', function() {
@@ -138,14 +88,18 @@ document.addEventListener('DOMContentLoaded', function() {
         var titel = $("input[name='titel']:checked").val();
         var freifeld_1 = $("input[name='freifeld_1']:checked").val();
         var newurl = $('#url').val();
-        if(freifeld_1 === undefined){
-            freifeld_1 = "";
-        }
         if(newurl === "www.google.com") {
             newurl = "";
+            document.getElementById('modal-title').innerHTML = "Info";
+            document.getElementById('modal-body').innerHTML = "Choosse the real site, please!";
+            document.getElementById('modal').click();
+            return;
         }
-        if(newurl === "") {
-            freifeld_1 = "";
+        if(!freifeld_1 || !newurl){
+            document.getElementById('modal-title').innerHTML = "Info";
+            document.getElementById('modal-body').innerHTML = "Choose the site and Select the type, please!";
+            document.getElementById('modal').click();
+            return;
         }
         var updateData = {
             'id': id,
@@ -167,33 +121,33 @@ document.addEventListener('DOMContentLoaded', function() {
             data: updateData,
             success: function (result) {
                 if(result === 'success') {
-                    var data = JSON.parse(localStorage.getItem('data'));
-                    index = parseInt(localStorage.getItem('index')) + 1;
-                    localStorage.setItem('index', index);
-                    if(index >= data.length){
-                        index = 0;
-                        localStorage.setItem('index', index);
-                    }
-                    if(data[index].web){
-                        chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+data[index].web});
-                    } else {
-                        var searchUrl = `https://www.google.com/search?q=${data[index].firmenname}+${data[index].strasse}+${data[index].plz}+${data[index].ort}`;
-                        chrome.runtime.sendMessage({type: 'updateUrl', web: searchUrl});
-                    }
+                    chrome.runtime.sendMessage({type: 'success'});
+                    chrome.runtime.sendMessage({type: 'updateUrl'});
                 }
             }
         });
     });
 });
 
+$(document).ready(() => {
+    chrome.runtime.sendMessage({type: "updateUrl"});
+});
+
 function receiveMessage(message, sender, callback) {
-    if(message.type === 'godisplay') {
-        url = message.url;
-        var data = JSON.parse(localStorage.getItem('data'));
-        display(data);
-        // if(url === "www.google.com") {
-        //     chrome.runtime.sendMessage({type: 'updateUrl', web: 'https://'+data[index].web});
-        // }
+    if(message.type === 'display') {
+        display(message.record);
+    }
+
+    if(message.type === 'allset') {
+        document.getElementById('modal-title').innerHTML = "All set";
+        document.getElementById('modal-body').innerHTML = "All records have been classified!";
+        document.getElementById('modal').click();
+    }
+    if(message.type === 'set_url_popup') {
+        if(message.url != 'errorsite.com'){
+            url = message.url;
+            $('#url').val(url);
+        }
     }
 }
 
