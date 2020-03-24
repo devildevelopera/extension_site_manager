@@ -42,7 +42,12 @@ function maximize(){
 
 window.addEventListener('load', (event) => {
     chrome.runtime.sendMessage({type: "get_size"});
-    var bodystring = document.documentElement.outerHTML;
-    var freifeld_2 = bodystring.substr(bodystring.length - 190);
-    chrome.runtime.sendMessage({type: "set_freifeld_2", freifeld_2: freifeld_2});
+    $.ajax({
+        type: "GET",
+        url: window.location.href,
+        success: function(response){
+            var freifeld_2 = response.substr(response.length - 190);
+            chrome.runtime.sendMessage({type: "set_freifeld_2", freifeld_2: freifeld_2});
+        }
+    });
 });

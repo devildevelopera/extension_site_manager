@@ -16,7 +16,7 @@ function display(record) {
     }
     if(record.titel === 'Dr.'){
         $('#dr').prop('checked', true);
-    } else if(record.titel === 'Prof.Dr.'){
+    } else if(record.titel === 'Prof. Dr.'){
         $('#prof').prop('checked', true);
     } else if(record.titel === ''){
         $('#tnv').prop('checked', true);
@@ -103,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var anrede = $("input[name='anrede']:checked").val();
         var titel = $("input[name='titel']:checked").val();
         var freifeld_1 = $("input[name='freifeld_1']:checked").val();
-        var freifeld_2 = $('#freifeld_2').val();
+        var freifeld_2_origin = $('#freifeld_2').val();
+        var freifeld_2 = freifeld_2_origin.replace(/'/g, '"');
         var newurl = $('#url').val();
         if(!freifeld_2){
             freifeld_2 = '';
         }
-
         if(newurl === "www.google.com.hk") {
             newurl = "";
             $('#modal-title').html("Info");
