@@ -1,5 +1,7 @@
 var update_status = false;
 var isExtensionOn = true;
+var minimize_flag = false;
+var maximize_flag = true;
 chrome.browserAction.onClicked.addListener(function(tab){
     isExtensionOn = true;
     update_status = false;
@@ -53,6 +55,25 @@ function receiveMessage(message, sender, callback) {
         isExtensionOn = false;
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id,'close');});
+    }
+    if(message.type === 'minimizeExtension') {
+        minimize_flag = true;
+        maximize_flag = false;
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id,'minimize');});
+    }
+    if(message.type === 'maximizeExtension') {
+        minimize_flag = false;
+        maximize_flag = true;
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id,'maximize');});
+    }
+    if(message.type === 'get_size') {
+        if(minimize_flag){
+            chrome.runtime.sendMessage({type: "set_minimize"});
+        } else if(maximize_flag) {
+            chrome.runtime.sendMessage({type: "set_maximize"});
+        }
     }
     if(message.type === 'get_url') {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){

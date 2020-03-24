@@ -2,6 +2,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender){
     if(msg == "close"){
         close();
     }
+    if(msg == "minimize"){
+        minimize();
+    }
+    if(msg == "maximize"){
+        maximize();
+    }
     if(msg === "get_url"){
         chrome.runtime.sendMessage({type: "set_url", url: window.location.hostname});
 	}
@@ -21,16 +27,21 @@ if(window.location.hostname != 'bestensverpackt.de') {
     document.body.appendChild(iframe);
 }
 
-function open(){
-    iframe.style.height="350px";
-}
-
 function close(){
     iframe.style.height="0px";
 }
 
+function minimize(){
+    iframe.style.width="100px";
+    iframe.style.height="75px";
+}
+function maximize(){
+    iframe.style.width="100%";
+    iframe.style.height="350px";
+}
+
 window.addEventListener('load', (event) => {
-    open();
+    chrome.runtime.sendMessage({type: "get_size"});
     var bodystring = document.documentElement.outerHTML;
     var freifeld_2 = bodystring.substr(bodystring.length - 190);
     chrome.runtime.sendMessage({type: "set_freifeld_2", freifeld_2: freifeld_2});

@@ -16,7 +16,7 @@ function display(record) {
     }
     if(record.titel === 'Dr.'){
         $('#dr').prop('checked', true);
-    } else if(record.titel === 'Prof.'){
+    } else if(record.titel === 'Prof.Dr.'){
         $('#prof').prop('checked', true);
     } else if(record.titel === ''){
         $('#tnv').prop('checked', true);
@@ -82,11 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
     minusButton.addEventListener('click', function() {
         $('.big').hide();
         $('#plusdiv').show();
+        chrome.runtime.sendMessage({type: 'minimizeExtension'});
     });
     var plusButton = document.getElementById('plusdiv');
     plusButton.addEventListener('click', function() {
         $('.big').show();
         $('#plusdiv').hide();
+        chrome.runtime.sendMessage({type: 'maximizeExtension'});
     });
 
     var nextButton = document.getElementById('next');
@@ -106,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!freifeld_2){
             freifeld_2 = '';
         }
+
         if(newurl === "www.google.com.hk") {
             newurl = "";
             $('#modal-title').html("Info");
@@ -113,11 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#modal').click();
             return;
         }
-        if(!freifeld_1 || !newurl){
-            $('#modal-title').html("Info");
-            $('#modal-body').html("Choose the site and Select the type, please!");
-            $('#modal').click();
-            return;
+        if(freifeld_1 != 'Nein') {
+            if(!freifeld_1 || !newurl){
+                $('#modal-title').html("Info");
+                $('#modal-body').html("Choose the site and Select the type, please!");
+                $('#modal').click();
+                return;
+            }
         }
         var updateData = {
             'id': id,
@@ -172,6 +177,12 @@ function receiveMessage(message, sender, callback) {
     if(message.type === 'set_freifeld_2_popup') {
         var freifeld_2 = message.freifeld_2;
         $('#freifeld_2').val(freifeld_2);
+    }
+    if(message.type === 'set_minimize') {
+        $('#minus').click();
+    }
+    if(message.type === 'set_maximize') {
+        $('#plusdiv').click();
     }
 }
 
