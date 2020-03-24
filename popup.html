@@ -21,8 +21,10 @@
 
 <body>
     <div class="container">
-        <div class="row">
-            <button class="close" id="close">✕</button>
+        <div id="plusdiv">
+          <button class="btn btn-secondary">+</button>
+        </div>
+        <div class="row big">
             <div class="col-sm-3">
                   <div class="form-group" style="display: none;">
                     <label for="id">id:</label>
@@ -157,13 +159,15 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group btngroup">
-                    <!-- <button type="button" class="btn btn-secondary" id="gotoUrl"><i class="fas fa-external-link-alt"></i></button> -->
-                    <button type="button" class="btn btn-secondary" id="get_url">URL Ubernehmen</button>
+                    <button class="btn btn-secondary" id="get_url">URL Ubernehmen</button>
+                    <button class="btn btn-success" id="new-record">+</button>
                 </div>
-                <div class="form-group btngroup"></div>
                 <div class="form-group btngroup">
-                    <!-- <button type="button" class="btn btn-secondary" id="back"><</button> -->
-                    <button type="button" class="btn btn-success" id="next">Speichen Weiter</button>
+                  <button class="btn btn-danger" id="close">x</button>
+                </div>
+                <div class="form-group btngroup">
+                    <button class="btn btn-success" id="next">Speichen Weiter</button>
+                    <button class="btn btn-secondary" id="minus">-</button>
                 </div>
             </div>
           </div>

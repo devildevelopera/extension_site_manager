@@ -1,5 +1,4 @@
 var url = '';
-
 function display(record) {
     $('#id').val(record.id);
     $('#firmenname').val(record.firmenname);
@@ -60,20 +59,36 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.runtime.sendMessage({type: 'get_url'});
     });
 
-    // var gotoUrlButton = document.getElementById('gotoUrl');
-    // gotoUrlButton.addEventListener('click', function() {
-
-    // });
+    var newRecordButton = document.getElementById('new-record');
+    newRecordButton.addEventListener('click', function() {
+        $('#id').val('');
+        $('#firmenname').val('');
+        $('#strasse').val('');
+        $('#plz').val('');
+        $('#ort').val('');
+        $('#vorname').val('');
+        $('#nachname').val('');
+        $("input[name='anrede']").prop("checked",false);
+        $("input[name='titel']").prop("checked",false);
+        $("input[name='freifeld_1']").prop("checked",false);
+        $('#url').val('');
+    });
 
     var closeButton = document.getElementById('close');
     closeButton.addEventListener('click', function() {
-        chrome.runtime.sendMessage({type: 'closePanel'});
+        chrome.runtime.sendMessage({type: 'closeExtension'});
     });
 
-    // var backButton = document.getElementById('back');
-    // backButton.addEventListener('click', function() {
-        
-    // });
+    var minusButton = document.getElementById('minus');
+    minusButton.addEventListener('click', function() {
+        $('.big').hide();
+        $('#plusdiv').show();
+    });
+    var plusButton = document.getElementById('plusdiv');
+    plusButton.addEventListener('click', function() {
+        $('.big').show();
+        $('#plusdiv').hide();
+    });
 
     var nextButton = document.getElementById('next');
     nextButton.addEventListener('click', function() {
@@ -88,17 +103,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var titel = $("input[name='titel']:checked").val();
         var freifeld_1 = $("input[name='freifeld_1']:checked").val();
         var newurl = $('#url').val();
-        if(newurl === "www.google.com") {
+        if(newurl === "www.google.com.hk") {
             newurl = "";
-            document.getElementById('modal-title').innerHTML = "Info";
-            document.getElementById('modal-body').innerHTML = "Choosse the real site, please!";
-            document.getElementById('modal').click();
+            $('#modal-title').html("Info");
+            $('#modal-body').html("Choosse the real site, please!");
+            $('#modal').click();
             return;
         }
         if(!freifeld_1 || !newurl){
-            document.getElementById('modal-title').innerHTML = "Info";
-            document.getElementById('modal-body').innerHTML = "Choose the site and Select the type, please!";
-            document.getElementById('modal').click();
+            $('#modal-title').html("Info");
+            $('#modal-body').html("Choose the site and Select the type, please!");
+            $('#modal').click();
             return;
         }
         var updateData = {
@@ -130,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $(document).ready(() => {
+    $('#plusdiv').hide();
     chrome.runtime.sendMessage({type: "updateUrl"});
 });
 
@@ -139,9 +155,9 @@ function receiveMessage(message, sender, callback) {
     }
 
     if(message.type === 'allset') {
-        document.getElementById('modal-title').innerHTML = "All set";
-        document.getElementById('modal-body').innerHTML = "All records have been classified!";
-        document.getElementById('modal').click();
+        $('#modal-title').html("All set");
+        $('#modal-body').html("All records have been classified!");
+        $('#modal').click();
     }
     if(message.type === 'set_url_popup') {
         if(message.url != 'errorsite.com'){

@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 $conn -> set_charset("utf8mb4");
 
-$sql = "SELECT * FROM records WHERE freifeld_1 IS NULL LIMIT 1";
+$sql = "SELECT * FROM records WHERE freifeld_1 IS NULL OR freifeld_1 = '' LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

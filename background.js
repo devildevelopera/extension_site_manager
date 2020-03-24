@@ -1,18 +1,25 @@
 var current_url = "";
 var active_status = false;
 var update_status = false;
+var isExtensionOn = true;
 chrome.browserAction.onClicked.addListener(function(tab){
+    isExtensionOn = true;
+    update_status = false;
     if(tab.url === 'chrome://newtab/'){
         chrome.tabs.update({url: 'https://www.google.com/'});
     } else if(!active_status){
         chrome.tabs.update({url: 'http://errorsite.com/'});
     } else {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id,'open');});
+        chrome.tabs.update({url: 'https://www.google.com/'});
     }
 });
 
 function receiveMessage(message, sender, callback) {
+    if(!isExtensionOn) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id,'close');});
+        return;
+    }
     if(message.type === 'success') {
         update_status = false;
         active_status = false;
@@ -42,7 +49,8 @@ function receiveMessage(message, sender, callback) {
             }
         });
     }
-    if(message.type === 'closePanel') {
+    if(message.type === 'closeExtension') {
+        isExtensionOn = false;
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id,'close');});
     }

@@ -1,7 +1,4 @@
 chrome.runtime.onMessage.addListener(function(msg, sender){
-    if(msg == "open"){
-        open();
-    }
     if(msg == "close"){
         close();
     }
@@ -10,12 +7,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender){
 	}
 })
 
-var iframe = document.createElement('iframe'); 
-iframe.style.background = "#f0f0f0";
+var iframe = document.createElement('iframe');
 iframe.style.width = "100%";
 iframe.style.height = "0px";
 iframe.style.position = "fixed";
-iframe.style.bottom = "0px";
+iframe.style.bottom = "50px";
 iframe.style.right = "0px";
 iframe.style.zIndex = "9000000000000000000";
 iframe.frameBorder = "none";
@@ -26,7 +22,7 @@ if(window.location.hostname != 'bestensverpackt.de') {
 }
 
 function open(){
-    iframe.style.height="300px";
+    iframe.style.height="350px";
 }
 
 function close(){

@@ -1,8 +1,13 @@
 body {
-    background-color: #f0f0f0 !important;
+    background-color:transparent !important;
 }
 .container {
-    margin-top: 20px;
+    max-width: 1150px !important;
+    background-color: rgba(242, 242, 242, 0.9);
+}
+.container .row.big {
+    padding: 10px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
 }
 .form-group {
     min-height: 70px;
@@ -10,21 +15,20 @@ body {
 }
 .form-check-inline {
     padding-top: 40px;
+    margin-right: 0 !important;
 }
 .btngroup {
     padding-top: 31px;
 }
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+#new-record, #minus, #close {
+    float: right;
+    width: 35px;
 }
-.close:focus {
-    outline: none !important;
-}
-
-@media (min-width: 1200px){
-    .container, .container-lg, .container-md, .container-sm, .container-xl {
-        max-width: 1440px !important;
-    }
+#plusdiv {
+    margin-top: 182px;
+    padding: 15px 0 15px 20px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    float: right;
+    width: 75px;
+    background-color: rgba(242, 242, 242, 0.9);
 }

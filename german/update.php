@@ -28,18 +28,23 @@ $titel = $_POST['titel'];
 $freifeld_1 = $_POST['freifeld_1'];
 $web = $_POST['web'];
 
-$updatesql = "UPDATE `records` SET
-`firmenname` = '$firmenname',
-`strasse` = '$strasse', 
-`plz` = '$plz', 
-`ort` = '$ort', 
-`vorname` = '$vorname',
-`nachname` = '$nachname', 
-`anrede` = '$anrede',
-`titel` = '$titel', 
-`freifeld_1` = '$freifeld_1',
-`web` = '$web'
-WHERE id=$id";
+if(!$id){
+    $updatesql = "INSERT INTO `records` (`firmenname`, `strasse`, `plz`, `ort`, `vorname`, `nachname`, `anrede`, `titel`, `freifeld_1`, `web`)
+                VALUES ('$firmenname', '$strasse', '$plz', '$ort', '$vorname', '$nachname', '$anrede', '$titel', '$freifeld_1', '$web')";
+} else {
+    $updatesql = "UPDATE `records` SET
+    `firmenname` = '$firmenname',
+    `strasse` = '$strasse', 
+    `plz` = '$plz', 
+    `ort` = '$ort', 
+    `vorname` = '$vorname',
+    `nachname` = '$nachname', 
+    `anrede` = '$anrede',
+    `titel` = '$titel', 
+    `freifeld_1` = '$freifeld_1',
+    `web` = '$web'
+    WHERE id=$id";
+}
 
 $updateresult = $conn->query($updatesql);
 
