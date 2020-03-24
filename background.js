@@ -1,17 +1,9 @@
-var current_url = "";
-var active_status = false;
 var update_status = false;
 var isExtensionOn = true;
 chrome.browserAction.onClicked.addListener(function(tab){
     isExtensionOn = true;
     update_status = false;
-    if(tab.url === 'chrome://newtab/'){
-        chrome.tabs.update({url: 'https://www.google.com/'});
-    } else if(!active_status){
-        chrome.tabs.update({url: 'http://errorsite.com/'});
-    } else {
-        chrome.tabs.update({url: 'https://www.google.com/'});
-    }
+    chrome.tabs.update({url: 'https://www.google.com/'});
 });
 
 function receiveMessage(message, sender, callback) {
@@ -22,7 +14,6 @@ function receiveMessage(message, sender, callback) {
     }
     if(message.type === 'success') {
         update_status = false;
-        active_status = false;
     }
     if(message.type === 'updateUrl') {
         $.ajax({
@@ -37,8 +28,17 @@ function receiveMessage(message, sender, callback) {
                         if(!record.web){
                             var searchUrl = `https://www.google.com/search?q=${record.firmenname}+${record.strasse}+${record.plz}+${record.ort}`;
                             chrome.tabs.update({url: searchUrl});
-                        } else if(record.web != current_url && current_url != 'errorsite.com'){
-                                chrome.tabs.update({url: 'https://'+record.web});
+                        } else {
+                            $.ajax({
+                                type: "GET",
+                                url: "https://"+record.web,
+                                success: function(){
+                                    chrome.tabs.update({url: 'https://'+record.web});
+                                },
+                                error: function(){
+                                    chrome.tabs.update({url: 'https://errorsite.com'});
+                                }
+                            });
                         }
                     }
                     update_status = true;
@@ -58,18 +58,10 @@ function receiveMessage(message, sender, callback) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id, 'get_url');});
     }
-    if(message.type === 'active') {
-        active_status = true;
-    }
-    if(message.type === 'inactive') {
-        current_url = message.url;
-    }
     if(message.type === 'set_freifeld_2') {
-        current_url = message.url;
         chrome.runtime.sendMessage({type: "set_freifeld_2_popup", freifeld_2: message.freifeld_2});
     }
     if(message.type === 'set_url') {
-        current_url = message.url;
         chrome.runtime.sendMessage({type: "set_url_popup", url: message.url});
     }
 }
