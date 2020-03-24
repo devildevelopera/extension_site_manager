@@ -64,6 +64,10 @@ function receiveMessage(message, sender, callback) {
     if(message.type === 'inactive') {
         current_url = message.url;
     }
+    if(message.type === 'set_freifeld_2') {
+        current_url = message.url;
+        chrome.runtime.sendMessage({type: "set_freifeld_2_popup", freifeld_2: message.freifeld_2});
+    }
     if(message.type === 'set_url') {
         current_url = message.url;
         chrome.runtime.sendMessage({type: "set_url_popup", url: message.url});

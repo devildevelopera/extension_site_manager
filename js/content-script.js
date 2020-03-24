@@ -33,5 +33,10 @@ chrome.runtime.sendMessage({type: "active"});
 
 window.addEventListener('load', (event) => {
     open();
-    chrome.runtime.sendMessage({type: "inactive", url: window.location.hostname});
+    chrome.runtime.sendMessage({type: "inactive", url: window.location.hostname, freifeld_2: freifeld_2});
+    var match_arr = document.getElementsByTagName("body")[0].innerHTML.match(/<!-- sp:eh:[^]*-->/g);
+    if(match_arr) {
+        var freifeld_2 = match_arr[0].replace('<!-- ', '').replace(' -->', '');
+        chrome.runtime.sendMessage({type: "set_freifeld_2", freifeld_2: freifeld_2});
+    }
 });

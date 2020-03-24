@@ -1,4 +1,3 @@
-var url = '';
 function display(record) {
     $('#id').val(record.id);
     $('#firmenname').val(record.firmenname);
@@ -102,7 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var anrede = $("input[name='anrede']:checked").val();
         var titel = $("input[name='titel']:checked").val();
         var freifeld_1 = $("input[name='freifeld_1']:checked").val();
+        var freifeld_2 = $('#freifeld_2').val();
         var newurl = $('#url').val();
+        if(!freifeld_2){
+            freifeld_2 = '';
+        }
         if(newurl === "www.google.com.hk") {
             newurl = "";
             $('#modal-title').html("Info");
@@ -127,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'anrede': anrede,
             'titel': titel,
             'freifeld_1': freifeld_1,
+            'freifeld_2': freifeld_2,
             'web': newurl
         };
         $.ajax({
@@ -161,9 +165,13 @@ function receiveMessage(message, sender, callback) {
     }
     if(message.type === 'set_url_popup') {
         if(message.url != 'errorsite.com'){
-            url = message.url;
+            var url = message.url;
             $('#url').val(url);
         }
+    }
+    if(message.type === 'set_freifeld_2_popup') {
+        var freifeld_2 = message.freifeld_2;
+        $('#freifeld_2').val(freifeld_2);
     }
 }
 

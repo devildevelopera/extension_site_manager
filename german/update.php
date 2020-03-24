@@ -26,11 +26,12 @@ $nachname = $_POST['nachname'];
 $anrede = $_POST['anrede'];
 $titel = $_POST['titel'];
 $freifeld_1 = $_POST['freifeld_1'];
+$freifeld_2 = $_POST['freifeld_2'];
 $web = $_POST['web'];
 
 if(!$id){
-    $updatesql = "INSERT INTO `records` (`firmenname`, `strasse`, `plz`, `ort`, `vorname`, `nachname`, `anrede`, `titel`, `freifeld_1`, `web`)
-                VALUES ('$firmenname', '$strasse', '$plz', '$ort', '$vorname', '$nachname', '$anrede', '$titel', '$freifeld_1', '$web')";
+    $updatesql = "INSERT INTO `records` (`firmenname`, `strasse`, `plz`, `ort`, `vorname`, `nachname`, `anrede`, `titel`, `freifeld_1`, `freifeld_2`, `web`)
+                VALUES ('$firmenname', '$strasse', '$plz', '$ort', '$vorname', '$nachname', '$anrede', '$titel', '$freifeld_1', '$freifeld_2', '$web')";
 } else {
     $updatesql = "UPDATE `records` SET
     `firmenname` = '$firmenname',
@@ -42,6 +43,7 @@ if(!$id){
     `anrede` = '$anrede',
     `titel` = '$titel', 
     `freifeld_1` = '$freifeld_1',
+    `freifeld_2` = '$freifeld_2',
     `web` = '$web'
     WHERE id=$id";
 }

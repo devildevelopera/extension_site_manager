@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
         $web = $row['web'];
         $anrede = $row['anrede'];
         $freifeld_1 = $row['freifeld_1'];
+        $freifeld_2 = $row['freifeld_2'];
     
         $return_arr[] = array("id" => $id,
                         "firmenname" => $firmenname,
@@ -43,7 +44,8 @@ if ($result->num_rows > 0) {
                         'nachname' => $nachname,
                         'web' => $web,
                         'anrede' => $anrede,
-                        'freifeld_1' => $freifeld_1);
+                        'freifeld_1' => $freifeld_1,
+                        'freifeld_2' => $freifeld_2);
     }
     echo json_encode($return_arr);
 } else {
