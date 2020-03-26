@@ -17,7 +17,7 @@ var iframe = document.createElement('iframe');
 iframe.style.width = "100%";
 iframe.style.height = "0px";
 iframe.style.position = "fixed";
-iframe.style.bottom = "150px";
+iframe.style.bottom = "50px";
 iframe.style.right = "0px";
 iframe.style.zIndex = "9000000000000000000";
 iframe.frameBorder = "none";
@@ -37,7 +37,7 @@ function minimize(){
 }
 function maximize(){
     iframe.style.width="100%";
-    iframe.style.height="250px";
+    iframe.style.height="350px";
 }
 
 window.addEventListener('load', (event) => {
